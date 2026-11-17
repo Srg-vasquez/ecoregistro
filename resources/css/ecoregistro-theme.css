@@ -1,0 +1,914 @@
+/* Paleta semántica: verde forestal, neutros cálidos y estados legibles en claro y oscuro. */
+
+html {
+    color-scheme: light;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+:root {
+    --canvas: #f0f4ee;
+    --surface: #ffffff;
+    --surface-raised: #f8faf6;
+    --surface-inset: #e8efe4;
+    --surface-accent: #e1ebda;
+    --border: #d2dcc8;
+    --border-subtle: #e2e9dc;
+
+    --text: #1a2e26;
+    --text-strong: #243d32;
+    --text-soft: #3f564a;
+    --text-muted: #5c6f62;
+    --text-faint: #7a8d80;
+
+    --accent: #1a5c47;
+    --accent-hover: #124838;
+    --accent-contrast: #f7faf5;
+    --accent-muted: #2d6e56;
+
+    --focus: #6f9e52;
+
+    --hero: #0f3d34;
+    --hero-text: #f0f5eb;
+    --hero-text-soft: #b8cfc0;
+    --hero-text-muted: #8fa99a;
+    --hero-accent: #b8dba0;
+    --hero-border: #ffffff22;
+
+    --success-bg: #e6f0de;
+    --success-fg: #3d6b2a;
+    --success-dot: #6b9c4a;
+
+    --warning-bg: #f6edd8;
+    --warning-fg: #8a6420;
+    --warning-border: #e8d4a8;
+    --warning-dot: #c99a38;
+
+    --danger-bg: #faece6;
+    --danger-fg: #9a4f35;
+    --danger-dot: #c4795d;
+
+    --neutral-bg: #edf1e9;
+    --neutral-fg: #5f7163;
+
+    --chart-bar: #9fbf87;
+    --chart-bar-active: #5f8a45;
+    --chart-bar-partial-a: #c5d4b4;
+    --chart-bar-partial-b: #dfe8d4;
+    --chart-grid: #dde5d4;
+    --chart-axis: #8a9a80;
+
+    --metric-lime-bg: #eef2df;
+    --metric-lime-fg: #7a8a45;
+    --metric-mint-bg: #e4f0e2;
+    --metric-mint-fg: #4f855c;
+    --metric-sand-bg: #f1ecdf;
+    --metric-sand-fg: #9a8348;
+    --metric-blue-bg: #e6efe8;
+    --metric-blue-fg: #5c7f6c;
+
+    --shadow-sm: 0 4px 18px rgb(26 46 38 / 0.06);
+    --shadow-md: 0 8px 30px rgb(26 46 38 / 0.1);
+    --shadow-tooltip: 0 6px 22px rgb(23 62 52 / 0.18);
+
+    --overlay: rgb(17 32 26 / 0.45);
+
+    /* Compatibilidad con reglas existentes */
+    --green: var(--accent);
+    --dark: var(--hero);
+    --muted: var(--text-muted);
+    --paper: var(--surface);
+    --soft: var(--surface-accent);
+}
+
+html[data-theme="dark"] {
+    --canvas: #0c1210;
+    --surface: #151d19;
+    --surface-raised: #1a2420;
+    --surface-inset: #101816;
+    --surface-accent: #1f2b26;
+    --border: #2a3a32;
+    --border-subtle: #22302a;
+
+    --text: #e6eee8;
+    --text-strong: #f4f8f4;
+    --text-soft: #c5d2ca;
+    --text-muted: #9aaba2;
+    --text-faint: #738278;
+
+    --accent: #4daa84;
+    --accent-hover: #63b892;
+    --accent-contrast: #0b1410;
+    --accent-muted: #7fc5a4;
+
+    --focus: #8bc56a;
+
+    --hero: #091612;
+    --hero-text: #e9f2ec;
+    --hero-text-soft: #a8bfb0;
+    --hero-text-muted: #7f9689;
+    --hero-accent: #9fd080;
+    --hero-border: #ffffff18;
+
+    --success-bg: #1d3024;
+    --success-fg: #a8d88e;
+    --success-dot: #7eb85e;
+
+    --warning-bg: #2e2618;
+    --warning-fg: #e4c078;
+    --warning-border: #4a3b22;
+    --warning-dot: #d9a94a;
+
+    --danger-bg: #311f18;
+    --danger-fg: #e8a894;
+    --danger-dot: #d4846c;
+
+    --neutral-bg: #1e2822;
+    --neutral-fg: #a7b5ab;
+
+    --chart-bar: #4d7058;
+    --chart-bar-active: #78a862;
+    --chart-bar-partial-a: #3a5040;
+    --chart-bar-partial-b: #2a3a32;
+    --chart-grid: #28342d;
+    --chart-axis: #6d7d73;
+
+    --metric-lime-bg: #232a1c;
+    --metric-lime-fg: #b5c26e;
+    --metric-mint-bg: #1a2b22;
+    --metric-mint-fg: #82b88f;
+    --metric-sand-bg: #2a261c;
+    --metric-sand-fg: #c9b06a;
+    --metric-blue-bg: #1a2620;
+    --metric-blue-fg: #87a895;
+
+    --shadow-sm: 0 4px 18px rgb(0 0 0 / 0.35);
+    --shadow-md: 0 8px 30px rgb(0 0 0 / 0.45);
+    --shadow-tooltip: 0 8px 28px rgb(0 0 0 / 0.55);
+
+    --overlay: rgb(0 0 0 / 0.55);
+}
+
+:root,
+html[data-theme="dark"] {
+    background: var(--canvas);
+    color: var(--text);
+}
+
+body {
+    background: var(--canvas);
+    color: var(--text);
+}
+
+input,
+select,
+textarea {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-soft);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-faint);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline-color: var(--focus);
+}
+
+.primary {
+    background: var(--accent);
+    color: var(--accent-contrast);
+}
+
+.primary:hover:not(:disabled) {
+    background: var(--accent-hover);
+}
+
+.secondary {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-soft);
+}
+
+.secondary:hover {
+    background: var(--surface-raised);
+}
+
+.subtle {
+    background: var(--surface-accent);
+    color: var(--accent);
+}
+
+.text-button,
+.icon-button {
+    color: var(--accent-muted);
+}
+
+.icon-button:hover {
+    background: var(--surface-accent);
+    color: var(--accent);
+}
+
+.brand {
+    color: var(--text-strong);
+}
+
+.brand-icon {
+    background: var(--accent);
+    color: var(--accent-contrast);
+}
+
+.brand small,
+.eyebrow,
+.loading {
+    color: var(--text-muted);
+}
+
+.live-dot,
+.demo-chip > span {
+    background: var(--success-dot);
+}
+
+.error-box {
+    background: var(--danger-bg);
+    border-color: color-mix(in srgb, var(--danger-dot) 40%, var(--border));
+    color: var(--danger-fg);
+}
+
+.login-story {
+    background: var(--hero);
+    color: var(--hero-text);
+}
+
+.login-story h1 em,
+.light-text {
+    color: var(--hero-accent);
+}
+
+.login-story > p,
+.story-proof small {
+    color: var(--hero-text-soft);
+}
+
+.story-proof {
+    border-top-color: var(--hero-border);
+    color: var(--hero-text-muted);
+}
+
+.brand.light {
+    color: var(--hero-text);
+}
+
+.brand.light .brand-icon {
+    background: color-mix(in srgb, var(--hero) 55%, var(--accent));
+    color: var(--hero-accent);
+}
+
+.brand.light small {
+    color: var(--hero-text-muted);
+}
+
+.login-form {
+    position: relative;
+    background: var(--canvas);
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-card h2,
+.page-heading h1,
+.metric-value,
+.closure-number {
+    color: var(--text-strong);
+}
+
+.login-card > p,
+.login-card > .login-note,
+.mini-label,
+.demo-accounts > span,
+.demo-accounts > small {
+    color: var(--text-muted);
+}
+
+.demo-accounts {
+    border-top-color: var(--border-subtle);
+}
+
+.demo-accounts button {
+    background: var(--surface-raised);
+    border-color: var(--border);
+    color: var(--text-soft);
+}
+
+.sidebar,
+.topbar,
+.metric-card,
+.panel {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.sidebar nav button {
+    color: var(--text-muted);
+}
+
+.sidebar nav button:hover {
+    background: var(--surface-raised);
+    color: var(--accent);
+}
+
+.sidebar nav button.active {
+    background: var(--surface-accent);
+    color: var(--text-strong);
+}
+
+.sidebar nav button b {
+    background: var(--surface-inset);
+    color: var(--text-muted);
+}
+
+.sidebar nav button.active b {
+    background: color-mix(in srgb, var(--success-bg) 70%, var(--surface));
+}
+
+.nav-active-dot {
+    background: var(--success-dot);
+}
+
+.organization {
+    border-color: var(--border);
+}
+
+.org-avatar,
+.user-avatar {
+    background: var(--surface-accent);
+    color: var(--accent-muted);
+}
+
+.demo-note {
+    background: linear-gradient(
+        135deg,
+        var(--surface-accent),
+        var(--surface-raised)
+    );
+    color: var(--text-muted);
+}
+
+.demo-note strong {
+    color: var(--text-soft);
+}
+
+.demo-note > span {
+    border-color: var(--border);
+    color: var(--text-faint);
+}
+
+.user-button {
+    border-top-color: var(--border);
+    color: var(--text-muted);
+}
+
+.breadcrumb {
+    color: var(--text-faint);
+}
+
+.breadcrumb strong {
+    color: var(--text-muted);
+}
+
+.demo-chip {
+    border-color: var(--border);
+    color: var(--text-muted);
+}
+
+.period-picker,
+.search-field {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-muted);
+}
+
+.overview-callout {
+    background: var(--success-bg);
+    border-color: color-mix(in srgb, var(--success-dot) 35%, var(--border));
+}
+
+.overview-callout.alert {
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
+}
+
+.overview-callout.alert .callout-leaf {
+    background: color-mix(in srgb, var(--warning-dot) 22%, var(--surface));
+    color: var(--warning-fg);
+}
+
+.overview-callout.alert strong {
+    color: var(--warning-fg);
+}
+
+.callout-leaf {
+    background: color-mix(in srgb, var(--success-dot) 20%, var(--surface));
+    color: var(--success-fg);
+}
+
+.overview-callout strong {
+    color: var(--success-fg);
+}
+
+.overview-callout p,
+.metric-top,
+.metric-card p,
+.metric-value > span,
+.page-heading p,
+.panel-heading p,
+.closure-panel > p,
+.closure-row,
+.chart-legend,
+.table-footer,
+.page-footer {
+    color: var(--text-muted);
+}
+
+.callout-pill {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-faint);
+}
+
+.lime {
+    background: var(--metric-lime-bg);
+    color: var(--metric-lime-fg);
+}
+
+.mint {
+    background: var(--metric-mint-bg);
+    color: var(--metric-mint-fg);
+}
+
+.sand {
+    background: var(--metric-sand-bg);
+    color: var(--metric-sand-fg);
+}
+
+.blue {
+    background: var(--metric-blue-bg);
+    color: var(--metric-blue-fg);
+}
+
+.metric-card.metric-warn {
+    border-color: color-mix(in srgb, var(--warning-dot) 45%, var(--border));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--warning-dot) 25%, transparent);
+}
+
+.panel-heading h2 {
+    color: var(--text-soft);
+}
+
+.panel-heading > svg,
+.panel-heading select {
+    color: var(--text-faint);
+}
+
+.chart-y,
+.bar-month {
+    color: var(--chart-axis);
+}
+
+.grid-lines i {
+    border-bottom-color: var(--chart-grid);
+}
+
+.bar {
+    background: var(--chart-bar);
+}
+
+.bar.selected {
+    background: var(--chart-bar-active);
+}
+
+.bar.partial {
+    background: repeating-linear-gradient(
+        135deg,
+        var(--chart-bar-partial-a),
+        var(--chart-bar-partial-a) 4px,
+        var(--chart-bar-partial-b) 4px,
+        var(--chart-bar-partial-b) 8px
+    );
+}
+
+.chart-legend i {
+    background: var(--chart-bar);
+}
+
+.chart-legend i.hatch {
+    background: repeating-linear-gradient(
+        135deg,
+        var(--chart-bar-partial-a),
+        var(--chart-bar-partial-a) 2px,
+        var(--chart-bar-partial-b) 2px,
+        var(--chart-bar-partial-b) 4px
+    );
+}
+
+.bar-tooltip {
+    background: var(--hero);
+    color: var(--hero-text);
+    box-shadow: var(--shadow-tooltip);
+}
+
+.bar-tooltip span {
+    color: var(--hero-text-soft);
+}
+
+.closure-number span {
+    color: var(--text-faint);
+}
+
+.progress-track {
+    background: var(--surface-inset);
+}
+
+.progress-track > div {
+    background: linear-gradient(
+        90deg,
+        var(--success-dot),
+        color-mix(in srgb, var(--success-dot) 75%, var(--accent))
+    );
+}
+
+.closure-panel--blocked .progress-track > div {
+    background: linear-gradient(
+        90deg,
+        var(--warning-dot),
+        color-mix(in srgb, var(--warning-dot) 70%, var(--danger-dot))
+    );
+}
+
+.closure-row strong {
+    color: var(--text-soft);
+}
+
+.amber-dot {
+    background: var(--warning-dot);
+}
+
+.gray-dot {
+    background: var(--text-faint);
+}
+
+th {
+    color: var(--text-faint);
+    background: var(--surface-raised);
+    border-color: var(--border-subtle);
+}
+
+td {
+    color: var(--text-muted);
+    border-color: var(--border-subtle);
+}
+
+td strong {
+    color: var(--text-soft);
+}
+
+.clickable:hover {
+    background: var(--surface-raised);
+}
+
+.facility-icon {
+    background: var(--surface-accent);
+    border-color: var(--border);
+    color: var(--text-faint);
+}
+
+.facility-cell small,
+.cell-sub {
+    color: var(--text-faint);
+}
+
+.badge.green {
+    background: var(--success-bg);
+    color: var(--success-fg);
+}
+
+.badge.amber {
+    background: var(--warning-bg);
+    color: var(--warning-fg);
+}
+
+.badge.red {
+    background: var(--danger-bg);
+    color: var(--danger-fg);
+}
+
+.badge.gray {
+    background: var(--neutral-bg);
+    color: var(--neutral-fg);
+}
+
+.activity-list button {
+    border-bottom-color: var(--border-subtle);
+    color: var(--text-faint);
+}
+
+.activity-icon {
+    background: var(--surface-accent);
+    color: var(--text-muted);
+}
+
+.activity-list strong {
+    color: var(--text-soft);
+}
+
+.activity-list small {
+    color: var(--text-faint);
+}
+
+.knowledge-card {
+    background: var(--surface-accent);
+    border-color: var(--border);
+}
+
+.knowledge-card .eyebrow,
+.knowledge-card > svg,
+.knowledge-card .text-button {
+    color: var(--accent-muted);
+}
+
+.knowledge-card h2 {
+    color: var(--text-soft);
+}
+
+.knowledge-card p {
+    color: var(--text-muted);
+}
+
+.toast {
+    background: var(--hero);
+    color: var(--hero-text);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px;
+    min-height: 34px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--surface-raised);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.theme-toggle:hover {
+    background: var(--surface-accent);
+    color: var(--text-soft);
+}
+
+.theme-toggle--login {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+.mobile-shade {
+    background: var(--overlay);
+}
+
+.closure-problem {
+    display: grid;
+    gap: 8px;
+    margin: 0 24px 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--warning-fg);
+}
+
+.closure-problem strong {
+    display: block;
+    font-size: 12px;
+}
+
+.modal-backdrop {
+    background: var(--overlay);
+}
+
+.modal {
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+}
+
+.modal-heading h2 {
+    color: var(--text-strong);
+}
+
+.modal-heading p,
+.form-grid label > small {
+    color: var(--text-muted);
+}
+
+.modal-footer {
+    background: var(--surface-raised);
+    border-top-color: var(--border);
+}
+
+.form-grid label {
+    color: var(--text-soft);
+}
+
+/* Logo en barra lateral y login (contraste en oscuro) */
+.brand-surface .brand-icon {
+    background: linear-gradient(145deg, var(--accent-hover), var(--accent));
+    color: var(--accent-contrast);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.15);
+}
+
+.brand-surface {
+    color: var(--text-strong);
+}
+
+.brand-surface small {
+    color: var(--text-muted);
+}
+
+html[data-theme="dark"] .brand-surface .brand-icon {
+    background: linear-gradient(155deg, #5dce9a 0%, #2f8f67 48%, #1f6b4d 100%);
+    color: #f2faf4;
+    box-shadow:
+        0 0 0 1px rgb(120 210 160 / 0.35),
+        0 6px 18px rgb(0 0 0 / 0.35);
+}
+
+html[data-theme="dark"] .brand-surface {
+    color: #f1f7f3;
+}
+
+html[data-theme="dark"] .brand-surface small {
+    color: #94b5a6;
+}
+
+.login-card .brand-surface {
+    margin-bottom: 18px;
+}
+
+html[data-theme="dark"] .login-form .login-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+html[data-theme="light"] .login-form .login-card .brand-surface {
+    display: none;
+}
+
+.page-heading h1,
+.closure-number,
+.method-main > h2,
+.factor-card h2 {
+    color: var(--text-strong);
+}
+
+.formula,
+.comparison {
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+.formula small,
+.comparison span,
+.comparison small {
+    color: var(--text-faint);
+}
+
+.comparison strong {
+    color: var(--text-soft);
+}
+
+.method-main h3,
+.method-rules strong,
+.method-rules svg {
+    color: var(--accent-muted);
+}
+
+.factor-icon {
+    background: var(--surface-accent);
+    color: var(--accent-muted);
+}
+
+.factor-item {
+    border-top-color: var(--border-subtle);
+}
+
+.factor-item h3,
+.factor-item > strong {
+    color: var(--text-soft);
+}
+
+.factor-item p,
+.method-note p,
+.method-note a,
+.factor-summary > small {
+    color: var(--text-muted);
+}
+
+.factor-summary > strong {
+    color: var(--success-fg);
+}
+
+.facility-card,
+.method-note,
+.record-summary,
+.history-list > div:before {
+    background: var(--surface-raised);
+    border-color: var(--border);
+}
+
+/* Reaplica tokens después de reglas fijas en ecoregistro.css */
+.panel-heading p,
+.metric-top,
+.metric-card p,
+.page-heading p,
+.overview-callout p,
+.closure-panel > p,
+.closure-row,
+.table-footer,
+.page-footer,
+.chart-legend,
+td,
+th,
+.facility-cell small,
+.cell-sub,
+.method-main > p,
+.method-rules > p,
+.method-note p,
+.knowledge-card p,
+.activity-list small {
+    color: var(--text-muted);
+}
+
+td strong {
+    color: var(--text-soft);
+}
+
+.badge.green {
+    color: var(--success-fg);
+}
+
+.badge.amber {
+    color: var(--warning-fg);
+}
+
+.badge.red {
+    color: var(--danger-fg);
+}
+
+.badge.gray {
+    color: var(--neutral-fg);
+}
+
+html[data-theme="dark"] .page-heading h1 {
+    color: var(--text-strong);
+}
+
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .metric-card,
+html[data-theme="dark"] .sidebar,
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .modal,
+html[data-theme="dark"] .period-picker,
+html[data-theme="dark"] .search-field {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+html[data-theme="dark"] .main {
+    background: var(--canvas);
+}
+
+html[data-theme="dark"] .content,
+html[data-theme="dark"] .page-footer {
+    color: var(--text-muted);
+}
