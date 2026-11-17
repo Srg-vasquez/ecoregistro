@@ -29,12 +29,12 @@ import {
     AlertCircle,
     Layers3,
     Menu,
-    Monitor,
     Moon,
     Sun,
 } from "lucide-react";
 import "../css/ecoregistro.css";
 import "../css/ecoregistro-theme.css";
+import "../css/ecoregistro-motion.css";
 
 const THEME_STORAGE_KEY = "ecoregistro-theme-preference";
 
@@ -46,15 +46,11 @@ function systemTheme() {
 
 function resolvePreference() {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === "system" || stored === "light" || stored === "dark") {
+    if (stored === "light" || stored === "dark") {
         return stored;
     }
-    return "system";
-}
-
-function resolveAppliedTheme(preference) {
-    if (preference === "light" || preference === "dark") {
-        return preference;
+    if (stored === "system") {
+        return systemTheme();
     }
     return systemTheme();
 }
@@ -68,75 +64,54 @@ function applyTheme(theme) {
 
 function useTheme() {
     const [preference, setPreference] = useState(() => resolvePreference());
-    const [appliedTheme, setAppliedTheme] = useState(() =>
-        resolveAppliedTheme(resolvePreference()),
-    );
+    const [appliedTheme, setAppliedTheme] = useState(() => resolvePreference());
 
     useEffect(() => {
-        const next = resolveAppliedTheme(preference);
-        setAppliedTheme(next);
-        applyTheme(next);
+        setAppliedTheme(preference);
+        applyTheme(preference);
         localStorage.setItem(THEME_STORAGE_KEY, preference);
     }, [preference]);
 
-    useEffect(() => {
-        const media = window.matchMedia("(prefers-color-scheme: dark)");
-        const onChange = () => {
-            if (preference !== "system") {
-                return;
-            }
-            const next = systemTheme();
-            setAppliedTheme(next);
-            applyTheme(next);
-        };
-        media.addEventListener("change", onChange);
-        return () => media.removeEventListener("change", onChange);
-    }, [preference]);
-
     const cycleTheme = () => {
-        setPreference((current) =>
-            current === "system" ? "light" : current === "light" ? "dark" : "system",
-        );
+        setPreference((current) => (current === "light" ? "dark" : "light"));
     };
 
     return { preference, appliedTheme, cycleTheme };
 }
 
-applyTheme(resolveAppliedTheme(resolvePreference()));
+applyTheme(resolvePreference());
 
 function ThemeToggle({
-    preference,
     appliedTheme,
     onCycle,
     className = "",
     compact = false,
 }) {
-    const labels = {
-        system: "Sistema",
-        light: "Claro",
-        dark: "Oscuro",
-    };
-    const nextLabels = {
-        system: "claro fijo",
-        light: "oscuro fijo",
-        dark: "seguir el sistema",
-    };
-  const icons = {
-        system: Monitor,
-        light: Sun,
-        dark: Moon,
-    };
-    const Icon = icons[preference] ?? Monitor;
+    const [pulse, setPulse] = useState(false);
+    const isDark = appliedTheme === "dark";
+    const Icon = isDark ? Moon : Sun;
+    const label = isDark ? "Oscuro" : "Claro";
+    const next = isDark ? "modo claro" : "modo oscuro";
+
+    function handleToggle() {
+        setPulse(false);
+        requestAnimationFrame(() => {
+            setPulse(true);
+            onCycle();
+        });
+        window.setTimeout(() => setPulse(false), 520);
+    }
+
     return (
         <button
             type="button"
-            className={`theme-toggle ${className}`.trim()}
-            onClick={onCycle}
-            aria-label={`Tema ${labels[preference]} · cambiar a ${nextLabels[preference]}`}
-            title={`Tema: ${labels[preference]}${preference === "system" ? ` (${appliedTheme === "dark" ? "oscuro" : "claro"} del sistema)` : ""}`}
+            className={`theme-toggle${isDark ? " theme-toggle--moon" : " theme-toggle--sun"}${pulse ? " theme-toggle--pulse" : ""} ${className}`.trim()}
+            onClick={handleToggle}
+            aria-label={`Tema ${label} · cambiar a ${next}`}
+            title={`Tema ${label} · cambiar a ${next}`}
         >
-            <Icon size={16} />
-            {!compact && <span>{labels[preference]}</span>}
+            <Icon size={16} strokeWidth={2.25} />
+            {!compact && <span>{label}</span>}
         </button>
     );
 }
@@ -240,7 +215,7 @@ function Spinner() {
     );
 }
 
-function Login({ onLogin, preference, appliedTheme, onCycleTheme }) {
+function Login({ onLogin, appliedTheme, onCycleTheme }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [busy, setBusy] = useState(false);
@@ -294,7 +269,6 @@ function Login({ onLogin, preference, appliedTheme, onCycleTheme }) {
             </section>
             <section className="login-form">
                 <ThemeToggle
-                    preference={preference}
                     appliedTheme={appliedTheme}
                     onCycle={onCycleTheme}
                     className="theme-toggle--login"
@@ -490,16 +464,16 @@ function Overview({ data, onView, onOpen, period }) {
     return (
         <>
             <div
-                className={`overview-callout${closureBlocked ? " alert" : ""}`}
+                className={`overview-callout${closureBlocked ? " alert" : " is-calm"}`}
             >
-                <div className="callout-leaf">
+                <div className="callout-icon" aria-hidden="true">
                     {closureBlocked ? (
-                        <AlertCircle size={22} />
+                        <AlertCircle strokeWidth={2.25} />
                     ) : (
-                        <Sprout size={25} />
+                        <Sprout strokeWidth={2} />
                     )}
                 </div>
-                <div>
+                <div className="callout-body">
                     <strong>
                         {periodIncomplete
                             ? "El cierre mensual aún no está listo."
@@ -1532,7 +1506,7 @@ function Modal({ children, onClose }) {
     );
 }
 
-function Workspace({ user, onLogout, preference, appliedTheme, onCycleTheme }) {
+function Workspace({ user, onLogout, appliedTheme, onCycleTheme }) {
     const [view, setView] = useState("overview");
     const [meta, setMeta] = useState(null);
     const [period, setPeriod] = useState("");
@@ -1714,7 +1688,6 @@ function Workspace({ user, onLogout, preference, appliedTheme, onCycleTheme }) {
                     </div>
                     <div className="topbar-actions">
                         <ThemeToggle
-                            preference={preference}
                             appliedTheme={appliedTheme}
                             onCycle={onCycleTheme}
                             compact
@@ -1775,7 +1748,7 @@ function Workspace({ user, onLogout, preference, appliedTheme, onCycleTheme }) {
                     {!data || !meta ? (
                         !error && <Spinner />
                     ) : (
-                        <>
+                        <div className="view-stage" key={view}>
                             {view === "overview" && (
                                 <Overview
                                     data={data}
@@ -1797,7 +1770,7 @@ function Workspace({ user, onLogout, preference, appliedTheme, onCycleTheme }) {
                                 <Methodology meta={meta} />
                             )}
                             {view === "facilities" && (
-                                <div className="facility-grid">
+                                <div className="facility-grid" key="facilities">
                                     {data.facilities.map((f) => (
                                         <section
                                             className="panel facility-card"
@@ -1861,7 +1834,7 @@ function Workspace({ user, onLogout, preference, appliedTheme, onCycleTheme }) {
                                     ))}
                                 </div>
                             )}
-                        </>
+                        </div>
                     )}
                     <footer className="page-footer">
                         <span>
@@ -1904,7 +1877,7 @@ function Workspace({ user, onLogout, preference, appliedTheme, onCycleTheme }) {
 }
 
 function App() {
-    const { preference, appliedTheme, cycleTheme } = useTheme();
+    const { appliedTheme, cycleTheme } = useTheme();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -1932,14 +1905,12 @@ function App() {
         <Workspace
             user={user}
             onLogout={() => setUser(null)}
-            preference={preference}
             appliedTheme={appliedTheme}
             onCycleTheme={cycleTheme}
         />
     ) : (
         <Login
             onLogin={setUser}
-            preference={preference}
             appliedTheme={appliedTheme}
             onCycleTheme={cycleTheme}
         />

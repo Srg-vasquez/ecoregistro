@@ -1,0 +1,178 @@
+/* Transiciones de producto: transform/opacity, respeto a prefers-reduced-motion. */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html,
+    body,
+    .sidebar,
+    .topbar,
+    .panel,
+    .metric-card,
+    .login-form {
+        transition:
+            background-color 0.32s ease,
+            color 0.22s ease,
+            border-color 0.32s ease;
+    }
+
+    .login-page .login-story {
+        animation: motion-login-story 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .login-page .login-form .login-card {
+        animation: motion-login-card 0.52s cubic-bezier(0.22, 1, 0.36, 1) 0.07s
+            both;
+    }
+
+    .login-page .theme-toggle--login {
+        animation: motion-fade-down 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.12s
+            both;
+    }
+
+    .app-shell {
+        animation: motion-fade-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .view-stage {
+        animation: motion-view-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .modal-backdrop {
+        animation: motion-backdrop-in 0.22s ease-out both;
+    }
+
+    .modal {
+        animation: motion-modal-in 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .theme-toggle {
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .theme-toggle:active {
+        transform: scale(0.94);
+    }
+
+    .theme-toggle.theme-toggle--pulse svg {
+        animation: motion-theme-icon 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .sidebar nav button {
+        transition:
+            background-color 0.18s ease,
+            color 0.18s ease,
+            transform 0.18s ease;
+    }
+
+    .sidebar nav button:active {
+        transform: scale(0.98);
+    }
+}
+
+@keyframes motion-login-story {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes motion-login-card {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes motion-fade-down {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes motion-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes motion-view-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes motion-backdrop-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes motion-modal-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes motion-theme-icon {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    35% {
+        transform: rotate(-22deg) scale(1.15);
+    }
+
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
